@@ -6,32 +6,39 @@ const { uvServer } = require('@titaniumnetwork-dev/ultraviolet');
 const app = express();
 const server = http.createServer(app);
 
-// 1. Change the network prefix so it doesn't say "/service/"
+// ContentKeeper flags standard proxy tracking prefixes like '/service/' or '/uv/'
+const CUSTOM_PREFIX = '/matrix-calc-stream/'; 
+
 const uv = uvServer({
-    prefix: '/algebra-reference/', // Hidden path
-    bare: '/bare/'
+    prefix: CUSTOM_PREFIX,
+    bare: '/math-api/'
 });
 
-// 2. DISGUISE THE SCRIPTS FROM CONTENTKEEPER
-// When the browser requests fake math tools, serve the real Ultraviolet data
-app.get('/algebra-reference/math-bundle.js', (req, res) => {
+// Remove identifying headers that indicate a proxy setup
+app.use((req, res, next) => {
+    res.removeHeader('X-Powered-By');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+    next();
+});
+
+// Map standard module paths to clean, fake calculus libraries
+app.get(`${CUSTOM_PREFIX}math-bundle.js`, (req, res) => {
     res.sendFile(path.join(__dirname, 'node_modules/@titaniumnetwork-dev/ultraviolet/dist/uv.bundle.js'));
 });
-app.get('/algebra-reference/math-settings.js', (req, res) => {
+app.get(`${CUSTOM_PREFIX}math-settings.js`, (req, res) => {
     res.sendFile(path.join(__dirname, 'node_modules/@titaniumnetwork-dev/ultraviolet/dist/uv.config.js'));
 });
 app.get('/uv.sw.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'node_modules/@titaniumnetwork-dev/ultraviolet/dist/uv.sw.js'));
 });
 
-// 3. Serve your Velara public folder interface
+// Route the frontend asset directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 4. Attach Ultraviolet network routing parameters
+// Attach the core engine
 uv.attach(server);
 
-// Start the server
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`Proxy server is actively running on port ${PORT}`);
+    console.log(`Diagnostic engine running on port ${PORT}`);
 });
