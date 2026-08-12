@@ -9,10 +9,12 @@ const server = http.createServer(app);
 // ContentKeeper flags standard proxy tracking prefixes like '/service/' or '/uv/'
 const CUSTOM_PREFIX = '/matrix-calc-stream/'; 
 
+// Ensure this block inside your index.js file maps locally:
 const uv = uvServer({
-    prefix: CUSTOM_PREFIX,
-    bare: '/math-api/'
+    prefix: '/matrix-calc-stream/', 
+    bare: '/math-api/' // This matches the path where requests are intercepted locally
 });
+
 
 // Remove identifying headers that indicate a proxy setup
 app.use((req, res, next) => {
