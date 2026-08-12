@@ -1,50 +1,37 @@
-"use strict";
-/**
- * @type {HTMLFormElement}
- */
-const form = document.getElementById("uv-form");
-/**
- * @type {HTMLInputElement}
- */
-const address = document.getElementById("uv-address");
-/**
- * @type {HTMLInputElement}
- */
-const searchEngine = document.getElementById("uv-search-engine");
-/**
- * @type {HTMLParagraphElement}
- */
-const error = document.getElementById("uv-error");
-/**
- * @type {HTMLPreElement}
- */
-const errorCode = document.getElementById("uv-error-code");
-const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const { uvServer } = require('@titaniumnetwork-dev/ultraviolet');
 
-form.addEventListener("submit", async (event) => {
-	event.preventDefault();
+const app = express();
+const server = http.createServer(app);
 
-	try {
-		await registerSW();
-	} catch (err) {
-		error.textContent = "Failed to register service worker.";
-		errorCode.textContent = err.toString();
-		throw err;
-	}
+// 1. Change the network prefix so it doesn't say "/service/"
+const uv = uvServer({
+    prefix: '/algebra-reference/', // Hidden path
+    bare: '/bare/'
+});
 
-	const url = search(address.value, searchEngine.value);
+// 2. DISGUISE THE SCRIPTS FROM CONTENTKEEPER
+// When the browser requests fake math tools, serve the real Ultraviolet data
+app.get('/algebra-reference/math-bundle.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'node_modules/@titaniumnetwork-dev/ultraviolet/dist/uv.bundle.js'));
+});
+app.get('/algebra-reference/math-settings.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'node_modules/@titaniumnetwork-dev/ultraviolet/dist/uv.config.js'));
+});
+app.get('/uv.sw.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'node_modules/@titaniumnetwork-dev/ultraviolet/dist/uv.sw.js'));
+});
 
-	let frame = document.getElementById("uv-frame");
-	frame.style.display = "block";
-	let wispUrl =
-		(location.protocol === "https:" ? "wss" : "ws") +
-		"://" +
-		location.host +
-		"/wisp/";
-	if ((await connection.getTransport()) !== "/epoxy/index.mjs") {
-		await connection.setTransport("/epoxy/index.mjs", [
-			{ wisp: wispUrl },
-		]);
-	}
-	frame.src = __uv$config.prefix + __uv$config.encodeUrl(url);
+// 3. Serve your Velara public folder interface
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 4. Attach Ultraviolet network routing parameters
+uv.attach(server);
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Proxy server is actively running on port ${PORT}`);
 });
