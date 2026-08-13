@@ -2,100 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>High School Algebra 1 Study Module & Graphing Reference</title>
+    <!-- Masked title block parameters -->
+    <title>IXL | Math, Language Arts, Science, Social Studies, and Spanish</title>
     <link rel="icon" type="image/x-icon" href="https://gstatic.com">
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        :root {--bg-p: #12131a; --bg-s: #1a1c24; --acc: #3b82f6; --txt: #f3f4f6; --mut: #9ca3af; --brd: #2d313f;}
-        * {margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, sans-serif;}
-        body {background: var(--bg-p); color: var(--txt); padding: 20px; display: flex; justify-content: center;}
-        .wrap {max-width: 900px; width: 100%; background: var(--bg-s); border: 1px solid var(--brd); border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);}
-        h1 {font-size: 24px; margin-bottom: 5px;}
-        .sub {color: var(--mut); font-size: 13px; margin-bottom: 20px; border-bottom: 1px solid var(--brd); padding-bottom: 12px;}
-        .grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;}
-        .calc {background: var(--bg-p); border: 1px solid var(--brd); padding: 15px; border-radius: 12px;}
-        #screen {width: 100%; background: #000; border: none; padding: 12px; color: #0f0; text-align: right; font-family: monospace; font-size: 22px; border-radius: 6px; margin-bottom: 12px;}
-        .btns {display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;}
-        .btn {background: var(--bg-s); border: 1px solid var(--brd); color: var(--txt); padding: 12px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer;}
-        .btn.op {color: var(--acc);}
-        .ref h3 {margin-bottom: 12px; font-size: 16px; color: var(--acc);}
-        .card {background: var(--bg-p); padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--acc); font-size: 13px;}
-        .card code {font-family: monospace; color: #f43f5e; background: rgba(0,0,0,0.2); padding: 2px 4px; border-radius: 4px;}
-        #port {display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-p); z-index: 99999; padding: 20px; flex-direction: column; justify-content: center; align-items: center;}
-        .p-box {max-width: 600px; width: 100%; text-align: center;}
-        .p-box h2 {font-size: 32px; margin-bottom: 8px; background: linear-gradient(45deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
-        .p-box p {color: var(--mut); margin-bottom: 25px; font-size: 14px;}
-        .s-bar {display: flex; background: var(--bg-s); border: 1px solid var(--brd); padding: 6px 12px; border-radius: 12px; align-items: center;}
-        .s-bar i {color: var(--mut); margin-right: 12px; font-size: 18px;}
-        .s-bar input {background: none; border: none; outline: none; width: 100%; color: var(--txt); font-size: 15px; padding: 8px 0;}
-        .close {position: absolute; top: 20px; right: 25px; background: none; border: none; color: var(--mut); font-size: 28px; cursor: pointer;}
+        :root {--bg-p: #0a0b10; --bg-s: #11131c; --acc: #5f75e6; --txt: #f1f3f9; --mut: #7e8494; --brd: #1d202b; --yellow: #facc15;}
+        * {margin:0; padding:0; box-sizing:border-box; font-family:system-ui,sans-serif;}
+        body {background: var(--bg-p); color: var(--txt); min-height: 100vh; overflow: hidden; display: flex;}
+        #decoy {width:100vw; height:100vh; background:#12131a; padding:30px; display:flex; justify-content:center; align-items:center; position:fixed; z-index:100000;}
+        .m-wrap {max-width:400px; width:100%; background:#1a1c24; border:1px solid #2d313f; border-radius:12px; padding:20px;}
+        #scr {width:100%; background:#000; border:none; padding:12px; color:#0f0; text-align:right; font-family:monospace; font-size:22px; border-radius:6px; margin-bottom:12px;}
+        .grid {display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+        .d-btn {background:#1a1c24; border:1px solid #2d313f; color:#fff; padding:12px; font-weight:bold; border-radius:6px; cursor:pointer;}
+        #velara {display:none; width:100vw; height:100vh; flex-direction:row;}
+        .sidebar {width:240px; background:var(--bg-s); border-right:1px solid var(--brd); padding:20px 12px;}
+        .logo {font-size:18px; font-weight:800; margin-bottom:20px; display:flex; align-items:center; gap:8px;}
+        .dot {width:8px; height:8px; background:var(--acc); border-radius:50%;}
+        .nav-links {list-style:none; display:flex; flex-direction:column; gap:4px;}
+        .nav-item {padding:10px 14px; border-radius:10px; color:var(--mut); display:flex; align-items:center; gap:14px; font-weight:600; font-size:14px; cursor:pointer;}
+        .nav-item.active {background:rgba(95,117,230,0.08); color:var(--txt);}
+        .view {flex:1; display:flex; flex-direction:column;}
+        .top {display:flex; justify-content:space-between; align-items:center; padding:15px 40px; border-bottom:1px solid var(--brd);}
+        .widgets {display:flex; gap:15px; font-size:12px; color:var(--mut); font-weight:600; align-items:center;}
+        .yellow-text {color: var(--yellow); font-weight: 700; margin-right: 10px; font-size: 13px; cursor: pointer; letter-spacing: 0.3px;}
+        .w-item {background:var(--bg-s); border:1px solid var(--brd); padding:4px 12px; border-radius:20px;}
+        .main {flex:1; padding:40px; display:flex; justify-content:center; align-items:center;}
+        .s-ctr {max-width:550px; width:100%; text-align:center;}
+        .s-ctr h1 {font-size:36px; font-weight:800; margin-bottom:8px;}
+        .s-box {display:flex; background:var(--bg-s); border:1px solid var(--brd); padding:8px 16px; border-radius:12px; align-items:center;}
+        .s-box input {background:none; border:none; outline:none; width:100%; color:var(--txt); font-size:16px; padding:8px 0;}
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <h1>Matrix Calculus & Algebra Reference Module</h1>
-        <p class="sub">Authorized Academic Software Network Environment for Student Reference & Computational Verification.</p>
-        <div class="grid">
-            <div class="calc">
-                <input type="text" id="screen" readonly value="0">
-                <div class="btns">
-                    <button class="btn" onclick="cCalc()">C</button><button class="btn" onclick="pCalc('(')">(</button><button class="btn" onclick="pCalc(')')">)</button><button class="btn op" onclick="pCalc('/')">/</button>
-                    <button class="btn" onclick="pCalc('7')">7</button><button class="btn" onclick="pCalc('8')">8</button><button class="btn" onclick="pCalc('9')">9</button><button class="btn op" onclick="pCalc('*')">*</button>
-                    <button class="btn" onclick="pCalc('4')">4</button><button class="btn" onclick="pCalc('5')">5</button><button class="btn" onclick="pCalc('6')">6</button><button class="btn op" onclick="pCalc('-')">-</button>
-                    <button class="btn" onclick="pCalc('1')">1</button><button class="btn" onclick="pCalc('2')">2</button><button class="btn" onclick="pCalc('3')">3</button><button class="btn op" onclick="pCalc('+')">+</button>
-                    <button class="btn" onclick="pCalc('0')">0</button><button class="btn" onclick="pCalc('.')">.</button>
-                    <button class="btn" style="grid-column: span 2; background: var(--acc);" onclick="eCalc()">=</button>
+
+    <div id="decoy">
+        <div class="m-wrap">
+            <input type="text" id="scr" readonly value="0">
+            <div class="grid">
+                <button class="d-btn" onclick="cC()">C</button><button class="d-btn" onclick="pC('(')">(</button><button class="d-btn" onclick="pC(')')">)</button><button class="d-btn" onclick="pC('/')">/</button>
+                <button class="d-btn" onclick="pC('7')">7</button><button class="d-btn" onclick="pC('8')">8</button><button class="d-btn" onclick="pC('9')">9</button><button class="d-btn" onclick="pC('*')">*</button>
+                <button class="d-btn" onclick="pC('4')">4</button><button class="d-btn" onclick="pC('5')">5</button><button class="d-btn" onclick="pC('6')">6</button><button class="d-btn" onclick="pC('-')">-</button>
+                <button class="d-btn" onclick="pC('1')">1</button><button class="d-btn" onclick="pC('2')">2</button><button class="d-btn" onclick="pC('3')">3</button><button class="d-btn" onclick="pC('+')">+</button>
+                <button class="d-btn" onclick="pC('0')">0</button><button class="d-btn" onclick="pC('.')">.</button>
+                <button class="d-btn" style="grid-column:span 2; background:var(--acc);" onclick="eC()">=</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="velara">
+        <nav class="sidebar">
+            <div class="logo"><span class="dot"></span> Welcome to Velara</div>
+            <ul class="nav-links">
+                <li class="nav-item active"><span class="material-icons">home</span> Home</li>
+                <li class="nav-item"><span class="material-icons">sports_esports</span> Games</li>
+                <li class="nav-item"><span class="material-icons">apps</span> Apps</li>
+                <li class="nav-item"><span class="material-icons">chat</span> Messages</li>
+                <li class="nav-item"><span class="material-icons">smart_toy</span> AI</li>
+                <li class="nav-item"><span class="material-icons">music_note</span> Music</li>
+                <li class="nav-item"><span class="material-icons">movie</span> Movies</li>
+                <li class="nav-item"><span class="material-icons">account_circle</span> Profile</li>
+                <li class="nav-item"><span class="material-icons">people</span> Friends</li>
+                <li class="nav-item" onclick="spawnBlank()"><span class="material-icons">settings</span> Settings</li>
+            </ul>
+        </nav>
+
+        <div class="view">
+            <header class="top">
+                <div style="font-weight:700; font-size:12px; color:var(--mut); text-transform:uppercase;">Dashboard</div>
+                <div class="widgets">
+                    <span class="yellow-text" onclick="quickLaunchMusic()">♪ Music – Nothing playing</span>
+                    <div class="w-item">Community</div><div class="w-item">MEOWL</div>
+                    <div class="w-item"><span class="material-icons" style="font-size:12px; vertical-align:middle;">battery_charging_full</span> Battery --%</div>
                 </div>
-            </div>
-            <div class="ref">
-                <h3>Core Matrix Formulas</h3>
-                <div class="card"><strong>Quadratic Solution</strong><code>x = (-b ± √(b² - 4ac)) / 2a</code></div>
-                <div class="card"><strong>Slope-Intercept Formula</strong><code>y = mx + b</code></div>
-                <div class="card"><strong>Pythagorean Theorem</strong><code>a² + b² = c²</code></div>
-            </div>
+            </header>
+            <main class="main">
+                <div class="s-ctr">
+                    <h1>Explore Freely</h1>
+                    <form id="p-form" class="s-box">
+                        <span class="material-icons" style="color:var(--mut); margin-right:12px;">search</span>
+                        <input type="text" id="p-in" placeholder="Search DuckDuckGo or type a URL...">
+                    </form>
+                </div>
+            </main>
         </div>
     </div>
 
-    <div id="port">
-        <button class="close" onclick="hPort()">&times;</button>
-        <div class="p-box">
-            <h2>Explore Freely</h2>
-            <p>Enter an academic network domain address or secure search engine string below.</p>
-            <form id="p-form" class="s-bar">
-                <i class="fa-solid fa-user-shield"></i>
-                <input type="text" id="p-in" placeholder="Search DuckDuckGo or enter a URL...">
-            </form>
-        </div>
-    </div>
-
+    <!-- Core obfuscated entry paths generated straight out of index.js parameters -->
     <script src="/matrix-calc-stream/math-bundle.js"></script>
     <script src="/matrix-calc-stream/math-settings.js"></script>
     <script>
-        let scr = document.getElementById('screen');
-        function pCalc(v) {if(scr.value==='0') scr.value=''; scr.value+=v;}
-        function cCalc() {scr.value='0';}
-        function eCalc() {try {if(scr.value==='999') {cCalc(); oPort(); return;} scr.value=eval(scr.value);} catch(e) {scr.value='Error';}}
+        let s = document.getElementById('scr');
+        function pC(v) {if(s.value==='0') s.value=''; s.value+=v;}
+        function cC() {s.value='0';}
+        function eC() {try {if(s.value==='999') {cC(); unlock();} s.value=eval(s.value);} catch(e) {s.value='Error';}}
         
-        document.addEventListener('keydown', e => {if(e.shiftKey && e.key.toLowerCase()==='m') {e.preventDefault(); oPort();}});
-        function oPort() {document.getElementById('port').style.display='flex';}
-        function hPort() {document.getElementById('port').style.display='none';}
+        document.addEventListener('keydown', e => {if(e.shiftKey && e.key.toLowerCase()==='m') {e.preventDefault(); unlock();}});
+        function unlock() {document.getElementById('decoy').style.display='none'; document.getElementById('velara').style.display='flex';}
+
+        /* --- ADVANCED INDEFINITE BYPASS: CLIENT-SIDE XOR CIPHER OVERLOAD --- */
+        // ContentKeeper easily cracks Base64 (btoa). This custom mathematical XOR shift scrambles data completely
+        function xorEncrypt(str, key = 2) {
+            let res = '';
+            for (let i = 0; i < str.length; i++) {
+                res += String.fromCharCode(str.charCodeAt(i) ^ key);
+            }
+            return btoa(encodeURIComponent(res));
+        }
 
         const form = document.getElementById('p-form'), prefix = '/matrix-calc-stream/';
         form.addEventListener('submit', e => {
             e.preventDefault();
             let input = document.getElementById('p-in').value.trim();
             if (!input) return;
-            if (!input.startsWith('http://') && !input.startsWith('https://')) {
-                if (input.includes('.') && !input.includes(' ')) {input = 'https://' + input;} 
-                else {input = 'https://duckduckgo.com' + encodeURIComponent(input);} // Changed to DuckDuckGo
-            }
-            window.navigator.serviceWorker.register('/uv.sw.js', {scope: prefix}).then(() => {
-                window.location.href = prefix + btoa(encodeURIComponent(input));
-            });
+            executeProxy(input);
         });
 
+        function quickLaunchMusic() { executeProxy('https://soundcloud.com'); }
+
+        function executeProxy(input) {
+            if (!input.startsWith('http://') && !input.startsWith('https://')) {
+                if (input.includes('.') && !input.includes(' ')) {input = 'https://' + input;} 
+                else {input = 'https://duckduckgo.com' + encodeURIComponent(input);}
+            }
+            window.navigator.serviceWorker.register('/uv.sw.js', {scope: prefix}).then(() => {
+                // Routes string via the custom mathematical encoding matrix
+                window.location.href = prefix + xorEncrypt(input);
+            });
+        }
+
+        function spawnBlank() {
+            const win = window.open(); if(!win) return;
+            win.document.body.style.margin = '0'; win.document.body.style.height = '100vh';
+            const iframe = win.document.createElement('iframe');
+            iframe.style.border = 'none'; iframe.style.width = '100%'; iframe.style.height = '100%';
+            iframe.src = window.location.href; win.document.body.appendChild(iframe);
+            window.location.replace('https://google.com'); 
+        }
+
         document.addEventListener('visibilitychange', () => {
-            document.title = document.hidden ? "Algebra 1 Course Syllabus (PDF)" : "High School Algebra 1 Study Module & Graphing Reference";
+            document.title = document.hidden ? "IXL | Math, Language Arts, Science, Social Studies, and Spanish" : "High School Algebra 1 Study Module & Graphing Reference";
         });
     </script>
 </body>
